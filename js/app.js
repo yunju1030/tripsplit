@@ -30,12 +30,13 @@ function heading(title, subtitle, actions = '') {
 function stats(trip, summary) {
   return `<div class="stats"><div class="card stat"><span class="muted">여행 전체 지출</span><strong class="money">${money(summary.total)}</strong></div><div class="card stat"><span class="muted">등록된 지출</span><strong>${trip.expenses.length}건</strong></div><div class="card stat"><span class="muted">함께하는 참여자</span><strong class="teal">${trip.participants.length}명</strong></div></div>`;
 }
-function tripList() {
+function tripList(loading = false) {
+  if (loading) return `<section id="trips" class="section-space"><h2>내 여행 목록</h2><div class="card" role="status" data-loading-trips>여행 기록을 불러오고 있습니다. 잠시만 기다려 주세요.</div></section>`;
   const trips = repository.list().slice().reverse();
   return `<section id="trips" class="section-space"><div class="row"><h2>내 여행 목록 <span class="muted">${trips.length}</span></h2>${link('+ 새 여행 만들기', '#create', 'primary')}</div>${trips.length ? `<div class="trip-grid">${trips.map(t => `<article class="card trip-card"><div class="trip-menu-wrap"><button class="btn trip-menu-trigger" type="button" data-trip-menu aria-label="${escape(t.name)} 여행 관리" aria-expanded="false">⋯</button><div class="trip-menu" hidden><button type="button" data-trip-action="edit" data-trip-id="${escape(t.id)}">여행 정보 수정</button><button type="button" class="danger" data-trip-action="delete" data-trip-id="${escape(t.id)}">여행 삭제</button></div></div><a class="trip-card-link" href="${url('dashboard', t.id)}"><span class="tag">참여자 ${t.participants.length}명</span><h3 style="margin-top:16px">${escape(t.name)}</h3><p class="muted">${period(t)}</p><div class="row"><strong class="money">${money(summarize(t).total)}</strong><span class="teal">여행 열기 →</span></div></a></article>`).join('')}</div>` : '<div class="card empty"><h2>함께 떠날 여행을 만들어 보세요</h2><p>참여자를 등록하면 지출 기록과 정산을 바로 시작할 수 있어요.</p></div>'}<button class="btn small" type="button" data-import-local>기존 브라우저 여행 가져오기</button><p class="notice">여행 기록은 Neon에 저장됩니다. 기존 브라우저 데이터는 확인 후 가져올 수 있습니다.</p></section>`;
 }
-function landing() {
-  app.innerHTML = document.querySelector('#landing-template').innerHTML + `<div class="wrap" style="padding-top:0">${tripList()}</div>`;
+function landing(loading = false) {
+  app.innerHTML = document.querySelector('#landing-template').innerHTML + `<div class="wrap" style="padding-top:0">${tripList(loading)}</div>`;
 }
 function createTrip() {
   app.innerHTML = `<div class="wrap"><a class="back" href="#trips">← 내 여행 목록</a>${heading('새 여행 만들기', '여행의 이름과 함께할 사람들을 알려 주세요.')}<form id="trip-form" class="card" style="max-width:760px;margin:auto"><div id="form-error" class="error" role="alert" tabindex="-1" hidden></div><label class="field">여행 이름<input name="name" placeholder="예: 부산 여행" required maxlength="100" autofocus></label><div class="form-grid"><label class="field">시작일<input type="date" name="startDate" required></label><label class="field">종료일<input type="date" name="endDate" required></label></div><fieldset><legend>여행 참여자</legend><p class="muted">한 명씩 이름을 입력해 주세요. 참여자는 원하는 만큼 추가할 수 있어요.</p><div id="participants"></div><button class="btn" type="button" id="add-participant">+ 참여자 추가</button></fieldset><p class="notice">같은 이름은 별명 등으로 구분해 주세요.</p><div class="actions" style="margin-top:24px">${link('취소', '#trips')}<button class="btn primary" type="submit">여행 만들기 →</button></div></form></div>`;
@@ -124,9 +125,12 @@ async function route() {
   const version = ++routeVersion;
   app.setAttribute('aria-busy', 'true');
   try {
+    const [page = 'home', tripId, expenseId] = (location.hash.slice(1) || 'home').split('/').map(decodeURIComponent);
+    // Paint the existing Stitch landing before the Neon cold-start request.
+    // The empty-state message appears only after a successful database read.
+    if (page === 'home') landing(true);
     await repository.refresh();
     if (version !== routeVersion) return;
-    const [page = 'home', tripId, expenseId] = (location.hash.slice(1) || 'home').split('/').map(decodeURIComponent);
     currentTrip = tripId ? repository.get(tripId) : null;
     const nav = document.querySelector('#navigation');
     nav.innerHTML = `<a href="#home" ${page === 'home' ? 'aria-current="page"' : ''}>서비스 소개</a><a href="#trips" ${page === 'trips' ? 'aria-current="page"' : ''}>내 여행 목록</a>${currentTrip ? `<a href="${url('dashboard', tripId)}" ${page === 'dashboard' ? 'aria-current="page"' : ''}>대시보드</a><a href="${url('expense', tripId)}" ${page === 'expense' ? 'aria-current="page"' : ''}>지출 등록</a><a href="${url('settlement', tripId)}" ${page === 'settlement' ? 'aria-current="page"' : ''}>최종 정산 결과</a>` : ''}`;
