@@ -1,0 +1,696 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><title>TripSplit - 여행 경비 정산</title><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "primary": "#006194", "inverse-on-surface": "#eef0ff", "on-secondary-fixed": "#00201d", "secondary-container": "#86f2e4", "on-surface": "#131b2e", "error": "#ba1a1a", "surface-dim": "#d2d9f4", "inverse-primary": "#93ccff", "surface-container-lowest": "#ffffff", "on-secondary": "#ffffff", "secondary": "#006a61", "on-secondary-fixed-variant": "#005049", "on-background": "#131b2e", "on-secondary-container": "#006f66", "on-tertiary-fixed-variant": "#005048", "on-tertiary": "#ffffff", "tertiary-container": "#008376", "primary-fixed": "#cce5ff", "outline-variant": "#bfc7d2", "outline": "#707881", "on-primary-fixed-variant": "#004b73", "on-primary-container": "#fdfcff", "surface-container": "#eaedff", "on-tertiary-fixed": "#00201c", "surface-tint": "#006398", "on-primary-fixed": "#001d31", "on-tertiary-container": "#f4fffb", "on-error": "#ffffff", "inverse-surface": "#283044", "surface": "#faf8ff", "surface-container-low": "#f2f3ff", "surface-bright": "#faf8ff", "tertiary": "#00685d", "secondary-fixed": "#89f5e7", "on-primary": "#ffffff", "tertiary-fixed": "#71f8e4", "secondary-fixed-dim": "#6bd8cb", "background": "#faf8ff", "primary-container": "#007bb9", "surface-container-high": "#e2e7ff", "tertiary-fixed-dim": "#4fdbc8", "on-error-container": "#93000a", "error-container": "#ffdad6", "primary-fixed-dim": "#93ccff", "surface-variant": "#dae2fd", "on-surface-variant": "#3f4850", "surface-container-highest": "#dae2fd" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "margin-md": "1.5rem", "gutter": "1rem", "space-xs": "0.25rem", "space-lg": "1rem", "space-md": "0.75rem", "gutter-lg": "1.5rem", "space-sm": "0.5rem", "space-xl": "1.5rem", "margin-lg": "2.5rem", "margin": "1rem", "space-2xl": "2rem", "space-3xl": "3rem" }, "fontFamily": { "headline-sm": ["Inter"], "label-numeric-lg": ["Inter"], "headline-lg-mobile": ["Inter"], "display-hero-mobile": ["Inter"], "headline-lg": ["Inter"], "body-md": ["Inter"], "headline-md": ["Inter"], "display-hero": ["Inter"], "label-numeric-md": ["Inter"], "body-sm": ["Inter"], "body-lg": ["Inter"], "label-sm": ["Inter"], "label-md": ["Inter"] }, "fontSize": { "headline-sm": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "label-numeric-lg": ["24px", { "lineHeight": "30px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-lg-mobile": ["22px", { "lineHeight": "30px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "display-hero-mobile": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "display-hero": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.025em", "fontWeight": "800" }], "label-numeric-md": ["16px", { "lineHeight": "22px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "600" }], "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "600" }] } } } };</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 w-full z-50 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between"><div class="flex items-center gap-3"><a class="flex items-center gap-2.5" data-path="service-intro" href="#"><img alt="TripSplit Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VZPnm8c0usCcmJSz2RkQ3hBPGXdVNC16bVhPCMvSD93Cu1Th510E2LCHj7UUBQ056OZ6_fJdJsvI2yYUPQm1H8cc55VgTxCxfXPEw16JkepJLW4CPyoSZlr3an0Kz8RAZ_klWuxC4hG0YbmBByALwZNHztlxS2zZi6kmFK_Jq1qkMXjbQZ8YtbTyH6cgw9VgtteVb3da1UJOnK5OWSt7Zg1pliSfo-xbUuREPvLb8I1Yra1_9_I9WsWiw"><span class="font-headline-sm text-headline-sm text-primary tracking-tight">TripSplit</span></a><span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-container/40 text-on-secondary-container font-label-sm text-label-sm font-semibold tracking-wide shadow-xs"><span class="material-symbols-outlined text-xs">flight</span><span class="">TRIP</span></span></div><nav class="hidden md:flex items-center gap-1 lg:gap-2" data-active-classes="text-primary font-label-md bg-surface-container rounded-lg"><a class="px-3 py-2 font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-lg" data-path="service-intro" href="#">서비스 소개</a><a aria-current="page" class="px-3 py-2 transition-colors text-primary font-label-md bg-surface-container rounded-lg" data-path="trip-dashboard" href="#">내 여행 대시보드</a><a class="px-3 py-2 font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-lg" data-path="add-expense" href="#">경비 등록</a><a class="px-3 py-2 font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-lg" data-path="settlement-summary" href="#">최종 정산 결과</a></nav><div class="flex items-center gap-3.5"><a class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-primary to-secondary text-on-primary rounded-xl font-label-md text-label-md shadow-[0_2px_8px_rgba(0,97,148,0.2)] hover:opacity-95 transition-opacity" data-path="trip-create" href="#"><span class="material-symbols-outlined text-sm font-bold">add</span><span class="">새 여행 만들기</span></a><div class="flex items-center gap-2 pl-2 cursor-pointer"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQUe3QTsOEm9EkvendywyBE01hmbp5HqeVg2_7_OBHEXnHOFhk4u0iDH0d5i2A7BunvVy0vovn981lyryVhFFmUaUClJu1BBUeiCrp6dGoieKIzPKyHdIxd04dJ8dYBwKrf6DBUrN574CM5szLh9q26DkgRTTjMLnWxuIYRSSmJf9O4nQo4eeQqJsGNpDdejuzRFvBSCYpJ0aH2-1si-R1jCt-vhSa7Cwdy9RrME2no5AZIQiHpjTy"><span class="hidden lg:inline font-label-md text-label-md text-on-surface">민지</span><span class="material-symbols-outlined text-on-surface-variant text-base">expand_more</span></div></div></div></header><main class="w-full pt-16 bg-surface min-h-[calc(100vh-16rem)]"><div class="flex flex-col w-full">
+<!-- Toast Notification Container -->
+<div class="fixed top-20 right-6 z-50 transform translate-y-[-20px] opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2.5 px-4 py-3 rounded-xl bg-surface-container-lowest text-on-surface shadow-xl" id="toast">
+<span class="material-symbols-outlined text-secondary text-xl">check_circle</span>
+<span class="font-body-md text-body-md font-medium" id="toast-text">초대 링크가 클립보드에 복사되었습니다!</span>
+</div>
+<div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-12 py-8 space-y-8">
+<!-- Trip Banner & Header Section -->
+<div class="relative overflow-hidden rounded-2xl bg-surface-container-low shadow-sm p-6 sm:p-8 lg:p-10">
+<!-- Ambient Decorative Backdrop Circles -->
+<div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-secondary-container/20 blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-primary-fixed/30 blur-2xl pointer-events-none"></div>
+<div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+<!-- Title & Travel Meta -->
+<div class="space-y-3 max-w-2xl">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2.5 py-1 rounded-full bg-primary-fixed text-primary font-label-sm text-label-sm font-semibold tracking-wide">
+              여행 진행 중
+            </span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">
+              정산 그룹 #TRP-8492
+            </span>
+</div>
+<div class="flex items-center gap-3">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight flex items-center gap-2">
+              🌊 부산 2박 3일 여름 여행
+            </h1>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-highest transition-colors" title="여행 제목 수정" type="button">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+</div>
+<div class="flex flex-wrap items-center gap-y-1 gap-x-3 text-on-surface-variant font-body-md text-body-md">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg text-primary">calendar_today</span>
+<span class="">2025.07.12 - 07.14 (2박 3일)</span>
+</div>
+<span class="text-outline-variant">•</span>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg text-secondary">location_on</span>
+<span class="">대한민국 부산광역시</span>
+</div>
+<span class="text-outline-variant">•</span>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg text-tertiary">savings</span>
+<span class="">목표 예산 ₩700,000</span>
+</div>
+</div>
+</div>
+<!-- Header Actions: Settlement & Add Expense -->
+<div class="flex items-center gap-3 flex-wrap lg:self-start">
+<a class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-container-lowest text-secondary font-label-md text-label-md shadow-sm hover:bg-surface-container transition-all" data-path="settlement-summary" href="#">
+<span class="material-symbols-outlined text-lg">calculate</span>
+<span class="">정산 결과 보기</span>
+</a>
+<a class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-on-primary font-label-md text-label-md shadow-md hover:bg-primary-container transition-all" data-path="add-expense" href="#">
+<span class="material-symbols-outlined text-lg font-bold">add</span>
+<span class="">새 지출 추가</span>
+</a>
+</div>
+</div>
+<!-- Member Avatars & Share Pill -->
+<div class="relative z-10 mt-6 pt-6 bg-surface-container/50 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-center gap-3 flex-wrap">
+<span class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base text-primary">groups</span>
+            참여 멤버 <span class="text-primary font-bold">4명</span>:
+          </span>
+<div class="flex items-center gap-2 flex-wrap">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-fixed text-primary font-label-sm text-label-sm shadow-xs">
+<img class="w-5 h-5 rounded-full object-cover" data-alt="Close-up avatar photograph of young East Asian woman with friendly warm smile, natural daylight, soft turquoise studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxFQADQr7hZbcW2G6KMkC5VGUyxaOC-l8npGS06-DhNtTm_K8FD4ltXW1y5ujuF4NapfM3o81NPbBluliChGj0ZcHUH_3Y6-H4KIZdOp2fjNRY6rZYsbPnHpwOqNLxIw__JDQTj2gqHcEbzztM0ncawIxjgq0pduTTBCGn9eCSDxCp1XfTQDxQey1kIZZ3puFE8fJ4TduBJNX_N8J4-N9GGaxz-WmXybXmcpduYt9q-qOBGIVnZms1">
+<span class="font-medium">민지 (나)</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm">
+<img class="w-5 h-5 rounded-full object-cover" data-alt="Portrait avatar photograph of cheerful young man wearing navy blue casual polo shirt, soft outdoor lighting in coastal city" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_pgTs0m9gJHTYRWVaJspHFZjSj8AoAJMRXhK5D1cNuXPOsvIidtAAFPVcxaOB10QW8PgFMXvQevqkxOMwkBDDdwp3ic6dtqZ6iTfjv-f-_Hk7MjGGEpgB5Nt9P7F5WfzzjQDoxscQ3trYVrJG8o02CEE8vKz5w1zNj5ALp41Yo8p_5efR4_9miTEmxzioxEVtALE_3trIN7O01ycwfzkOQwghkJtddFTFVzssaD5hJUB_ssbHhEvW">
+<span class="font-medium">준혁</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm">
+<img class="w-5 h-5 rounded-full object-cover" data-alt="Portrait avatar headshot of young Korean woman with short bob haircut and warm joyful smile, soft teal background lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhpeTV7yq-7gVi7xLghqvKPqkn6nZYy1eRbYqRA_E87okuvzxXuhCX4R1t08v93oXRaAElCyaXhykEPBNImlcDYXai7GwK3uB55ffCBQdtTi-oxysH5fwz8JKNjloI-SOXxw59wUHZQOdopwhkfkBIvGF3ubeM2Sf656AaRnawX0acQwpk2zs9AuOYQX8VoEtaAVAxYYD8rgz81ZyX-uPyYpFuZ8CLOtzMZYd24OA44p7jwFIq6jV-">
+<span class="font-medium">수빈</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm">
+<img class="w-5 h-5 rounded-full object-cover" data-alt="Casual profile photo of young university man wearing lightweight beige summer shirt, clean sunny beachside backdrop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCa9IlAJvVH5kIHPkMBsIOfq61OExspNeLYDU1AQZizo-6N4WYnNqNr5ooWaC5KCiPrCPw5j_Sdtpgk92cGR6BidV6DoCW5JbUuYGUZRH2y6VLIIPcTVVuAyqR_n6irV8QJqFxJSFza2S0fQOVdJ_W7PuuHwCj6h1bnv_9qijGb-Q-eYHaVyBIaIrOP2X9-W1poMxEH9st4QOfgCto7Z1jzBLRCpNF0_kSN1gwumaWameYh5ABzMGyD">
+<span class="font-medium">도현</span>
+</div>
+</div>
+</div>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface-variant hover:text-primary font-label-sm text-label-sm transition-colors shadow-xs" id="copy-link-btn" type="button">
+<span class="material-symbols-outlined text-base">link</span>
+<span class="">초대 링크 복사</span>
+</button>
+</div>
+</div>
+<!-- 3 Top Summary KPI Cards (Bento Metric Layout) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+<!-- KPI 1: 총 지출 금액 -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-sm flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between mb-4">
+<div class="space-y-1">
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">총 지출 금액</span>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">₩586,000</span>
+</div>
+</div>
+<div class="w-12 h-12 rounded-xl bg-primary-fixed flex items-center justify-center text-primary group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+</div>
+</div>
+<div class="space-y-2 pt-2">
+<div class="flex items-center justify-between font-label-sm text-label-sm">
+<span class="text-secondary font-medium flex items-center gap-0.5">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+              예산 83.7% 소진
+            </span>
+<span class="text-on-surface-variant">목표 ₩700,000</span>
+</div>
+<!-- Budget Progress Bar -->
+<div class="w-full h-2 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full rounded-full bg-gradient-to-r from-primary to-secondary" style="width: 83.7%"></div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant pt-0.5">
+            예산 대비 <span class="text-secondary font-semibold">₩114,000 여유</span>가 남아있어요!
+          </p>
+</div>
+</div>
+<!-- KPI 2: 참여 인원 & 1인당 평균 -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-sm flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between mb-4">
+<div class="space-y-1">
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">참여 인원</span>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">4명</span>
+</div>
+</div>
+<div class="w-12 h-12 rounded-xl bg-secondary-container flex items-center justify-center text-on-secondary-container group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">group</span>
+</div>
+</div>
+<div class="p-3 rounded-xl bg-surface-container-low flex items-center justify-between">
+<div class="space-y-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">1인당 평균 부담액</span>
+<div class="font-headline-sm text-headline-sm font-bold text-secondary">
+              ₩146,500
+            </div>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant">내 결제 총액</span>
+<p class="font-body-md text-body-md font-semibold text-primary">₩332,000</p>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant pt-3 flex items-center gap-1">
+<span class="material-symbols-outlined text-base text-secondary">check</span>
+          내가 낸 금액이 평균보다 커서 정산 시 환급받아요
+        </p>
+</div>
+<!-- KPI 3: 지출 내역 건수 & 정산 현황 -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-sm flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between mb-4">
+<div class="space-y-1">
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">총 지출 내역</span>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">6건</span>
+</div>
+</div>
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+</div>
+</div>
+<!-- Inline Category Spark Breakdown SVG Mini Chart -->
+<div class="space-y-2">
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span class="">식비 (53%)</span>
+<span class="">숙소 (44%)</span>
+<span class="">기타 (3%)</span>
+</div>
+<div class="w-full h-2 rounded-full overflow-hidden flex bg-surface-container">
+<div class="bg-primary h-full" style="width: 53%" title="식비 53%"></div>
+<div class="bg-secondary h-full" style="width: 44%" title="숙박 44%"></div>
+<div class="bg-outline-variant h-full" style="width: 3%" title="기타 3%"></div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-3 font-body-sm text-body-sm">
+<span class="inline-flex items-center gap-1 text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+            미정산 6건 기록 중
+          </span>
+<a class="text-primary font-label-sm text-label-sm font-semibold hover:underline" data-path="settlement-summary" href="#">
+            정산 프리뷰 →
+          </a>
+</div>
+</div>
+</div>
+<!-- Filter, Search & Sorting Control Center -->
+<div class="bg-surface-container-lowest rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+<!-- Category Filter Tabs -->
+<div class="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0 scrollbar-none" id="category-tabs">
+<button class="filter-tab active px-3.5 py-2 rounded-xl font-label-md text-label-md transition-all whitespace-nowrap bg-primary text-on-primary shadow-xs" data-filter="all" type="button">
+            전체 (6)
+          </button>
+<button class="filter-tab px-3.5 py-2 rounded-xl font-label-md text-label-md transition-all whitespace-nowrap bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container" data-filter="food" type="button">
+            🍽️ 식비 (3)
+          </button>
+<button class="filter-tab px-3.5 py-2 rounded-xl font-label-md text-label-md transition-all whitespace-nowrap bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container" data-filter="transport" type="button">
+            🚅 교통 (1)
+          </button>
+<button class="filter-tab px-3.5 py-2 rounded-xl font-label-md text-label-md transition-all whitespace-nowrap bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container" data-filter="stay" type="button">
+            🏨 숙소 (1)
+          </button>
+<button class="filter-tab px-3.5 py-2 rounded-xl font-label-md text-label-md transition-all whitespace-nowrap bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container" data-filter="activity" type="button">
+            🎡 액티비티 (1)
+          </button>
+</div>
+<!-- Search Input & Sorter Dropdown -->
+<div class="flex items-center gap-3 w-full lg:w-auto">
+<div class="relative flex-1 lg:w-72">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
+<input class="w-full h-11 pl-10 pr-4 rounded-xl bg-surface-container-low font-body-md text-body-md text-on-surface placeholder:text-outline focus:bg-surface-container-lowest focus:shadow-sm focus:outline-none transition-all" id="search-input" placeholder="지출명 또는 결제자 검색..." type="text">
+</div>
+<div class="relative">
+<select class="h-11 px-3.5 pr-8 rounded-xl bg-surface-container-low font-label-md text-label-md text-on-surface appearance-none focus:outline-none cursor-pointer" id="sort-select">
+<option value="recent">최신순</option>
+<option value="high">금액 높은순</option>
+<option value="low">금액 낮은순</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-base">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Expense List Section (Desktop Table / Responsive Card Layout) -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden">
+<!-- Section Header -->
+<div class="p-5 sm:px-6 flex items-center justify-between bg-surface-container-low">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">지출 타임라인</h2>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm" id="item-count-badge">총 5개 항목 표시</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="inline-flex items-center gap-1 font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-base">download</span>
+<span class="">CSV 내보내기</span>
+</button>
+</div>
+</div>
+<!-- Expense Items Container -->
+<div class="divide-y divide-surface-container" id="expense-list">
+<!-- Item 1: 해운대 조개구이 & 회 세트 -->
+<div class="expense-row p-5 sm:px-6 hover:bg-surface-container-low/60 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4" data-amount="185000" data-category="food" data-name="해운대 조개구이 &amp; 회 세트" data-payer="준혁" data-timestamp="202507131930">
+<div class="flex items-start sm:items-center gap-4 min-w-0">
+<!-- Category Icon Squircle -->
+<div class="w-12 h-12 rounded-2xl bg-secondary-container/40 text-on-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-2xl">restaurant</span>
+</div>
+<!-- Details -->
+<div class="space-y-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate">
+                  해운대 조개구이 &amp; 회 세트
+                </span>
+<span class="px-2 py-0.5 rounded-md bg-secondary-container/30 text-on-secondary-container font-label-sm text-label-sm">
+                  식비
+                </span>
+</div>
+<div class="flex items-center gap-2.5 flex-wrap text-on-surface-variant font-body-sm text-body-sm">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                  2025.07.13 19:30
+                </span>
+<span class="text-outline-variant">•</span>
+<span class="">결제자: <strong class="text-on-surface font-semibold">준혁</strong></span>
+<span class="text-outline-variant">•</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-xs">group</span>
+                  전원 정산 (4명)
+                </span>
+</div>
+</div>
+</div>
+<!-- Price & Actions Right Group -->
+<div class="flex items-center justify-between md:justify-end gap-6 shrink-0 pt-2 md:pt-0">
+<div class="text-left md:text-right">
+<div class="font-label-numeric-lg text-label-numeric-lg font-bold text-on-surface">
+                ₩185,000
+              </div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">
+                1인당 <span class="font-semibold text-secondary">₩46,250</span>
+</div>
+</div>
+<!-- Row Actions -->
+<div class="flex items-center gap-1">
+<button class="p-2 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="지출 수정" type="button">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="delete-btn p-2 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 transition-colors" title="지출 삭제" type="button">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 2: 광안리 오션뷰 감성 에어비앤비 (2박) -->
+<div class="expense-row p-5 sm:px-6 hover:bg-surface-container-low/60 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4" data-amount="260000" data-category="stay" data-name="광안리 오션뷰 감성 에어비앤비 (2박)" data-payer="민지" data-timestamp="202507121500">
+<div class="flex items-start sm:items-center gap-4 min-w-0">
+<!-- Category Icon Squircle -->
+<div class="w-12 h-12 rounded-2xl bg-primary-fixed text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-2xl">hotel</span>
+</div>
+<!-- Details -->
+<div class="space-y-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate">
+                  광안리 오션뷰 감성 에어비앤비 (2박)
+                </span>
+<span class="px-2 py-0.5 rounded-md bg-primary-fixed/60 text-primary font-label-sm text-label-sm">
+                  숙박
+                </span>
+</div>
+<div class="flex items-center gap-2.5 flex-wrap text-on-surface-variant font-body-sm text-body-sm">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                  2025.07.12 15:00
+                </span>
+<span class="text-outline-variant">•</span>
+<span class="">결제자: <strong class="text-primary font-semibold">민지 (나)</strong></span>
+<span class="text-outline-variant">•</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-xs">group</span>
+                  전원 정산 (4명)
+                </span>
+</div>
+</div>
+</div>
+<!-- Price & Actions Right Group -->
+<div class="flex items-center justify-between md:justify-end gap-6 shrink-0 pt-2 md:pt-0">
+<div class="text-left md:text-right">
+<div class="font-label-numeric-lg text-label-numeric-lg font-bold text-on-surface">
+                ₩260,000
+              </div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">
+                1인당 <span class="font-semibold text-secondary">₩65,000</span>
+</div>
+</div>
+<!-- Row Actions -->
+<div class="flex items-center gap-1">
+<button class="p-2 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="지출 수정" type="button">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="delete-btn p-2 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 transition-colors" title="지출 삭제" type="button">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 3: KTX 서울 ⇄ 부산 왕복 (민지, 준혁) -->
+<div class="expense-row p-5 sm:px-6 hover:bg-surface-container-low/60 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4" data-amount="72000" data-category="transport" data-name="KTX 서울 부산 왕복" data-payer="민지" data-timestamp="202507120840">
+<div class="flex items-start sm:items-center gap-4 min-w-0">
+<!-- Category Icon Squircle -->
+<div class="w-12 h-12 rounded-2xl bg-surface-container-highest text-on-surface-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-2xl">train</span>
+</div>
+<!-- Details -->
+<div class="space-y-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate">
+                  KTX 서울 ⇄ 부산 왕복 (민지, 준혁)
+                </span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm">
+                  교통
+                </span>
+</div>
+<div class="flex items-center gap-2.5 flex-wrap text-on-surface-variant font-body-sm text-body-sm">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                  2025.07.12 08:40
+                </span>
+<span class="text-outline-variant">•</span>
+<span class="">결제자: <strong class="text-primary font-semibold">민지 (나)</strong></span>
+<span class="text-outline-variant">•</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-primary-fixed/40 text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-xs">person</span>
+                  민지, 준혁 (2명 한정)
+                </span>
+</div>
+</div>
+</div>
+<!-- Price & Actions Right Group -->
+<div class="flex items-center justify-between md:justify-end gap-6 shrink-0 pt-2 md:pt-0">
+<div class="text-left md:text-right">
+<div class="font-label-numeric-lg text-label-numeric-lg font-bold text-on-surface">
+                ₩72,000
+              </div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">
+                1인당 <span class="font-semibold text-secondary">₩36,000</span>
+</div>
+</div>
+<!-- Row Actions -->
+<div class="flex items-center gap-1">
+<button class="p-2 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="지출 수정" type="button">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="delete-btn p-2 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 transition-colors" title="지출 삭제" type="button">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 4: 송도 해상 케이블카 크리스탈 크루즈 -->
+<div class="expense-row p-5 sm:px-6 hover:bg-surface-container-low/60 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4" data-amount="44000" data-category="activity" data-name="송도 해상 케이블카 크리스탈 크루즈" data-payer="수빈" data-timestamp="202507131415">
+<div class="flex items-start sm:items-center gap-4 min-w-0">
+<!-- Category Icon Squircle -->
+<div class="w-12 h-12 rounded-2xl bg-secondary-container/30 text-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-2xl">attractions</span>
+</div>
+<!-- Details -->
+<div class="space-y-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate">
+                  송도 해상 케이블카 크리스탈 크루즈
+                </span>
+<span class="px-2 py-0.5 rounded-md bg-secondary-container/30 text-secondary font-label-sm text-label-sm">
+                  액티비티
+                </span>
+</div>
+<div class="flex items-center gap-2.5 flex-wrap text-on-surface-variant font-body-sm text-body-sm">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                  2025.07.13 14:15
+                </span>
+<span class="text-outline-variant">•</span>
+<span class="">결제자: <strong class="text-on-surface font-semibold">수빈</strong></span>
+<span class="text-outline-variant">•</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-xs">group</span>
+                  전원 정산 (4명)
+                </span>
+</div>
+</div>
+</div>
+<!-- Price & Actions Right Group -->
+<div class="flex items-center justify-between md:justify-end gap-6 shrink-0 pt-2 md:pt-0">
+<div class="text-left md:text-right">
+<div class="font-label-numeric-lg text-label-numeric-lg font-bold text-on-surface">
+                ₩44,000
+              </div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">
+                1인당 <span class="font-semibold text-secondary">₩11,000</span>
+</div>
+</div>
+<!-- Row Actions -->
+<div class="flex items-center gap-1">
+<button class="p-2 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="지출 수정" type="button">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="delete-btn p-2 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 transition-colors" title="지출 삭제" type="button">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 5: 남포동 씨앗호떡 & 디저트 카페 -->
+<div class="expense-row p-5 sm:px-6 hover:bg-surface-container-low/60 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4" data-amount="25000" data-category="food" data-name="남포동 씨앗호떡 &amp; 디저트 카페" data-payer="도현" data-timestamp="202507141130">
+<div class="flex items-start sm:items-center gap-4 min-w-0">
+<!-- Category Icon Squircle -->
+<div class="w-12 h-12 rounded-2xl bg-secondary-container/40 text-on-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-2xl">local_cafe</span>
+</div>
+<!-- Details -->
+<div class="space-y-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate">
+                  남포동 씨앗호떡 &amp; 디저트 카페
+                </span>
+<span class="px-2 py-0.5 rounded-md bg-secondary-container/30 text-on-secondary-container font-label-sm text-label-sm">
+                  카페 / 식비
+                </span>
+</div>
+<div class="flex items-center gap-2.5 flex-wrap text-on-surface-variant font-body-sm text-body-sm">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                  2025.07.14 11:30
+                </span>
+<span class="text-outline-variant">•</span>
+<span class="">결제자: <strong class="text-on-surface font-semibold">도현</strong></span>
+<span class="text-outline-variant">•</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-xs">group</span>
+                  전원 정산 (4명)
+                </span>
+</div>
+</div>
+</div>
+<!-- Price & Actions Right Group -->
+<div class="flex items-center justify-between md:justify-end gap-6 shrink-0 pt-2 md:pt-0">
+<div class="text-left md:text-right">
+<div class="font-label-numeric-lg text-label-numeric-lg font-bold text-on-surface">
+                ₩25,000
+              </div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">
+                1인당 <span class="font-semibold text-secondary">₩6,250</span>
+</div>
+</div>
+<!-- Row Actions -->
+<div class="flex items-center gap-1">
+<button class="p-2 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="지출 수정" type="button">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="delete-btn p-2 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 transition-colors" title="지출 삭제" type="button">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State View (Hidden by default) -->
+<div class="hidden p-12 text-center flex-col items-center justify-center space-y-3" id="empty-state">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center text-outline-variant">
+<span class="material-symbols-outlined text-3xl">search_off</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-on-surface">검색 및 필터 결과가 없습니다</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">다른 검색어를 입력하시거나 카테고리 필터를 '전체'로 변경해 보세요.</p>
+</div>
+<!-- Bottom Quick Summary Bar -->
+<div class="p-4 sm:p-5 bg-surface-container-low flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-base">verified</span>
+<span class="">모든 영수증 데이터는 동기화되어 즉시 N빵 계산에 반영됩니다.</span>
+</div>
+<a class="inline-flex items-center gap-1.5 font-label-md text-label-md text-primary font-semibold hover:underline" data-path="add-expense" href="#">
+<span class="material-symbols-outlined text-base">add_circle</span>
+<span class="">영수증 추가 등록하기</span>
+</a>
+</div>
+</div>
+<!-- Quick Floating Action / Banner for Settlement Preview -->
+<div class="rounded-2xl p-6 sm:p-8 bg-gradient-to-r from-primary to-secondary text-on-primary shadow-md flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="space-y-1.5">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold">
+            N빵 최적화 준비 완료
+          </span>
+<span class="font-label-sm text-label-sm text-primary-fixed">최소 송금 횟수 알고리즘</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg font-bold tracking-tight">
+          여행이 끝났나요? 단 2번의 송금으로 모든 정산을 끝내세요.
+        </h3>
+<p class="font-body-md text-body-md text-primary-fixed max-w-xl">
+          복잡한 계좌 이체 대신 최적화된 1:1 송금 경로와 카카오페이/토스 다이렉트 송금 링크를 제공합니다.
+        </p>
+</div>
+<div class="shrink-0 flex items-center gap-3">
+<a class="px-6 py-3.5 rounded-xl bg-surface-container-lowest text-primary font-label-md text-label-md font-bold shadow-lg hover:bg-surface-container transition-all flex items-center gap-2" data-path="settlement-summary" href="#">
+<span class="">최종 정산 결과 확인</span>
+<span class="material-symbols-outlined text-lg">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    // 1. Copy Invite Link Toast Micro-interaction
+    const copyBtn = document.getElementById('copy-link-btn');
+    const toast = document.getElementById('toast');
+    
+    if (copyBtn && toast) {
+      copyBtn.addEventListener('click', function() {
+        const dummyUrl = window.location.origin + '/join?code=TRP-8492';
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(dummyUrl).catch(function(){});
+        }
+        
+        toast.classList.remove('translate-y-[-20px]', 'opacity-0', 'pointer-events-none');
+        toast.classList.add('translate-y-0', 'opacity-100');
+        
+        setTimeout(function() {
+          toast.classList.remove('translate-y-0', 'opacity-100');
+          toast.classList.add('translate-y-[-20px]', 'opacity-0', 'pointer-events-none');
+        }, 2500);
+      });
+    }
+
+    // 2. Client Filtering & Searching & Sorting
+    const tabs = document.querySelectorAll('.filter-tab');
+    const searchInput = document.getElementById('search-input');
+    const sortSelect = document.getElementById('sort-select');
+    const expenseList = document.getElementById('expense-list');
+    const emptyState = document.getElementById('empty-state');
+    const countBadge = document.getElementById('item-count-badge');
+
+    let currentFilter = 'all';
+
+    function filterAndSort() {
+      if (!expenseList) return;
+      const rows = Array.from(expenseList.querySelectorAll('.expense-row'));
+      const query = (searchInput ? searchInput.value.trim().toLowerCase() : '');
+      
+      let visibleCount = 0;
+
+      rows.forEach(function(row) {
+        const cat = row.getAttribute('data-category');
+        const name = (row.getAttribute('data-name') || '').toLowerCase();
+        const payer = (row.getAttribute('data-payer') || '').toLowerCase();
+
+        const matchesCat = (currentFilter === 'all' || cat === currentFilter);
+        const matchesQuery = (!query || name.includes(query) || payer.includes(query));
+
+        if (matchesCat && matchesQuery) {
+          row.style.display = 'flex';
+          visibleCount++;
+        } else {
+          row.style.display = 'none';
+        }
+      });
+
+      // Sorting visible elements
+      if (sortSelect) {
+        const sortMode = sortSelect.value;
+        const sortedRows = rows.slice().sort(function(a, b) {
+          const amtA = parseInt(a.getAttribute('data-amount') || '0', 10);
+          const amtB = parseInt(b.getAttribute('data-amount') || '0', 10);
+          const timeA = a.getAttribute('data-timestamp') || '';
+          const timeB = b.getAttribute('data-timestamp') || '';
+
+          if (sortMode === 'high') {
+            return amtB - amtA;
+          } else if (sortMode === 'low') {
+            return amtA - amtB;
+          } else {
+            // recent (default)
+            return timeB.localeCompare(timeA);
+          }
+        });
+
+        sortedRows.forEach(function(row) {
+          expenseList.appendChild(row);
+        });
+      }
+
+      if (countBadge) {
+        countBadge.textContent = '총 ' + visibleCount + '개 항목 표시';
+      }
+
+      if (emptyState) {
+        if (visibleCount === 0) {
+          emptyState.classList.remove('hidden');
+          emptyState.classList.add('flex');
+        } else {
+          emptyState.classList.add('hidden');
+          emptyState.classList.remove('flex');
+        }
+      }
+    }
+
+    tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        tabs.forEach(function(t) {
+          t.classList.remove('bg-primary', 'text-on-primary', 'shadow-xs');
+          t.classList.add('bg-surface-container-low', 'text-on-surface-variant');
+        });
+        tab.classList.remove('bg-surface-container-low', 'text-on-surface-variant');
+        tab.classList.add('bg-primary', 'text-on-primary', 'shadow-xs');
+
+        currentFilter = tab.getAttribute('data-filter') || 'all';
+        filterAndSort();
+      });
+    });
+
+    if (searchInput) {
+      searchInput.addEventListener('input', filterAndSort);
+    }
+
+    if (sortSelect) {
+      sortSelect.addEventListener('change', filterAndSort);
+    }
+
+    // 3. Delete Confirmation Micro-interaction
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    deleteButtons.forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const row = btn.closest('.expense-row');
+        if (!row) return;
+        const itemName = row.getAttribute('data-name') || '해당 지출';
+        if (window.confirm("'" + itemName + "' 항목을 삭제하시겠습니까?")) {
+          row.remove();
+          filterAndSort();
+        }
+      });
+    });
+
+  })();
+</script></main><footer class="w-full bg-surface-container-low shadow-[0_-1px_6px_rgba(0,0,0,0.02)]"><div class="max-w-7xl mx-auto px-6 lg:px-12 py-12"><div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8"><div class="md:col-span-2 space-y-3"><div class="flex items-center gap-2"><img alt="TripSplit Logo" class="h-6 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VZPnm8c0usCcmJSz2RkQ3hBPGXdVNC16bVhPCMvSD93Cu1Th510E2LCHj7UUBQ056OZ6_fJdJsvI2yYUPQm1H8cc55VgTxCxfXPEw16JkepJLW4CPyoSZlr3an0Kz8RAZ_klWuxC4hG0YbmBByALwZNHztlxS2zZi6kmFK_Jq1qkMXjbQZ8YtbTyH6cgw9VgtteVb3da1UJOnK5OWSt7Zg1pliSfo-xbUuREPvLb8I1Yra1_9_I9WsWiw"><span class="font-headline-sm text-headline-sm text-primary">TripSplit</span></div><p class="font-body-sm text-body-sm text-on-surface-variant max-w-md">동행인과의 소중한 여행 추억에 어색한 정산 계산 대신 명쾌함을 더합니다. 실시간 영수증 분할 및 N빵 최적화 알고리즘 기반 스마트 공유 여행 가계부입니다.</p><p class="font-body-sm text-body-sm text-outline">대학생 테크 프로젝트 &amp; 오픈소스 이니셔티브</p></div><div><h4 class="font-label-md text-label-md text-on-surface mb-3">빠른 이동</h4><ul class="space-y-2 font-body-sm text-body-sm text-on-surface-variant"><li class=""><a class="hover:text-primary transition-colors" data-path="trip-dashboard" href="#">내 여행 목록</a></li><li class=""><a class="hover:text-primary transition-colors" data-path="add-expense" href="#">실시간 영수증 등록</a></li><li class=""><a class="hover:text-primary transition-colors" data-path="settlement-summary" href="#">정산 송금 가이드</a></li></ul></div><div><h4 class="font-label-md text-label-md text-on-surface mb-3">고객 지원 &amp; 정책</h4><ul class="space-y-2 font-body-sm text-body-sm text-on-surface-variant"><li class=""><a class="hover:text-primary transition-colors" data-path="privacy-policy" href="#">개인정보처리방침</a></li><li class=""><a class="hover:text-primary transition-colors" data-path="terms-of-service" href="#">이용약관</a></li><li class=""><a class="hover:text-primary transition-colors" data-path="feedback" href="#">피드백 보내기</a></li></ul></div></div><div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-body-sm text-body-sm text-outline"><p class="">© 2025 TripSplit. All rights reserved.</p><p class="">Crafted with modern fintech simplicity for travelers everywhere.</p></div></div></footer>
+
+</body></html>

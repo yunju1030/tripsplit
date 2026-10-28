@@ -1,0 +1,453 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><title>TripSplit - 여행 경비 정산</title><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "primary": "#006194", "inverse-on-surface": "#eef0ff", "on-secondary-fixed": "#00201d", "secondary-container": "#86f2e4", "on-surface": "#131b2e", "error": "#ba1a1a", "surface-dim": "#d2d9f4", "inverse-primary": "#93ccff", "surface-container-lowest": "#ffffff", "on-secondary": "#ffffff", "secondary": "#006a61", "on-secondary-fixed-variant": "#005049", "on-background": "#131b2e", "on-secondary-container": "#006f66", "on-tertiary-fixed-variant": "#005048", "on-tertiary": "#ffffff", "tertiary-container": "#008376", "primary-fixed": "#cce5ff", "outline-variant": "#bfc7d2", "outline": "#707881", "on-primary-fixed-variant": "#004b73", "on-primary-container": "#fdfcff", "surface-container": "#eaedff", "on-tertiary-fixed": "#00201c", "surface-tint": "#006398", "on-primary-fixed": "#001d31", "on-tertiary-container": "#f4fffb", "on-error": "#ffffff", "inverse-surface": "#283044", "surface": "#faf8ff", "surface-container-low": "#f2f3ff", "surface-bright": "#faf8ff", "tertiary": "#00685d", "secondary-fixed": "#89f5e7", "on-primary": "#ffffff", "tertiary-fixed": "#71f8e4", "secondary-fixed-dim": "#6bd8cb", "background": "#faf8ff", "primary-container": "#007bb9", "surface-container-high": "#e2e7ff", "tertiary-fixed-dim": "#4fdbc8", "on-error-container": "#93000a", "error-container": "#ffdad6", "primary-fixed-dim": "#93ccff", "surface-variant": "#dae2fd", "on-surface-variant": "#3f4850", "surface-container-highest": "#dae2fd" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "margin-md": "1.5rem", "gutter": "1rem", "space-xs": "0.25rem", "space-lg": "1rem", "space-md": "0.75rem", "gutter-lg": "1.5rem", "space-sm": "0.5rem", "space-xl": "1.5rem", "margin-lg": "2.5rem", "margin": "1rem", "space-2xl": "2rem", "space-3xl": "3rem" }, "fontFamily": { "headline-sm": ["Inter"], "label-numeric-lg": ["Inter"], "headline-lg-mobile": ["Inter"], "display-hero-mobile": ["Inter"], "headline-lg": ["Inter"], "body-md": ["Inter"], "headline-md": ["Inter"], "display-hero": ["Inter"], "label-numeric-md": ["Inter"], "body-sm": ["Inter"], "body-lg": ["Inter"], "label-sm": ["Inter"], "label-md": ["Inter"] }, "fontSize": { "headline-sm": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "label-numeric-lg": ["24px", { "lineHeight": "30px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-lg-mobile": ["22px", { "lineHeight": "30px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "display-hero-mobile": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "display-hero": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.025em", "fontWeight": "800" }], "label-numeric-md": ["16px", { "lineHeight": "22px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "600" }], "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "600" }] } } } };</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 w-full z-50 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between"><div class="flex items-center gap-3"><a class="flex items-center gap-2.5" data-path="service-intro" href="#"><img alt="TripSplit Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VZPnm8c0usCcmJSz2RkQ3hBPGXdVNC16bVhPCMvSD93Cu1Th510E2LCHj7UUBQ056OZ6_fJdJsvI2yYUPQm1H8cc55VgTxCxfXPEw16JkepJLW4CPyoSZlr3an0Kz8RAZ_klWuxC4hG0YbmBByALwZNHztlxS2zZi6kmFK_Jq1qkMXjbQZ8YtbTyH6cgw9VgtteVb3da1UJOnK5OWSt7Zg1pliSfo-xbUuREPvLb8I1Yra1_9_I9WsWiw"><span class="font-headline-sm text-headline-sm text-primary tracking-tight">TripSplit</span></a><span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-container/60 text-on-secondary-container font-label-sm text-label-sm shadow-sm tracking-wide"><span class="text-xs">✈️</span><span class="">TRIP</span></span></div><nav class="hidden md:flex items-center gap-1 lg:gap-2" data-active-classes="text-primary font-label-md bg-surface-container rounded-lg"><a aria-current="page" class="px-3 py-2 transition-colors text-primary font-label-md bg-surface-container rounded-lg" data-path="service-intro" href="#">서비스 소개</a><a class="px-3 py-2 font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-lg" data-path="trip-dashboard" href="#">내 여행 대시보드</a><a class="px-3 py-2 font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-lg" data-path="add-expense" href="#">경비 등록</a><a class="px-3 py-2 font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-lg" data-path="settlement-summary" href="#">최종 정산 결과</a></nav><div class="flex items-center gap-3.5"><a class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-primary to-secondary text-on-primary rounded-xl font-label-md text-label-md shadow-[0_2px_8px_rgba(0,97,148,0.2)] hover:opacity-95 transition-opacity" data-path="trip-create" href="#"><span class="material-symbols-outlined text-sm font-bold">add</span><span class="">새 여행 만들기</span></a><div class="flex items-center gap-2 pl-2 cursor-pointer"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQUe3QTsOEm9EkvendywyBE01hmbp5HqeVg2_7_OBHEXnHOFhk4u0iDH0d5i2A7BunvVy0vovn981lyryVhFFmUaUClJu1BBUeiCrp6dGoieKIzPKyHdIxd04dJ8dYBwKrf6DBUrN574CM5szLh9q26DkgRTTjMLnWxuIYRSSmJf9O4nQo4eeQqJsGNpDdejuzRFvBSCYpJ0aH2-1si-R1jCt-vhSa7Cwdy9RrME2no5AZIQiHpjTy"><span class="hidden lg:inline font-label-md text-label-md text-on-surface">민지</span><span class="material-symbols-outlined text-on-surface-variant text-base">expand_more</span></div></div></div></header><main class="w-full pt-16 bg-surface min-h-[calc(100vh-16rem)]"><div class="flex flex-col w-full overflow-hidden">
+<!-- Top Ambient Glow -->
+<div class="relative w-full">
+<div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[720px] h-[400px] bg-gradient-to-tr from-secondary-container/40 via-primary-fixed/50 to-surface-variant/30 blur-3xl pointer-events-none rounded-full"></div>
+</div>
+<!-- SECTION 1: HERO -->
+<section class="relative w-full max-w-7xl mx-auto px-6 lg:px-12 pt-10 pb-20 lg:pt-16 lg:pb-28">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+<!-- Left Content Column (7 cols) -->
+<div class="lg:col-span-7 flex flex-col items-start space-y-6">
+<!-- Tagline badge -->
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-secondary-container/60 shadow-sm">
+<span class="text-sm">✈️</span>
+<span class="font-label-md text-label-md text-on-secondary-container tracking-tight">복잡한 계산 없이 깔끔하게</span>
+</div>
+<!-- Main Headline -->
+<div class="space-y-2">
+<h1 class="font-display-hero text-display-hero text-on-surface tracking-tight">
+            여행 경비 정산,<br class="hidden sm:inline">
+            이제 <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">더 쉽고 투명하게</span>
+</h1>
+<p class="font-body-md text-body-md text-outline tracking-normal">
+            Split travel expenses, simply and fairly with friends.
+          </p>
+</div>
+<!-- Subdescription -->
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
+          친구들과 떠난 여행의 지출 내역을 기록하고, 누가 누구에게 얼마를 보내야 하는지 한 번의 클릭으로 자동 계산해 보세요. 어색한 정산 고민이 사라집니다.
+        </p>
+<!-- CTA Buttons -->
+<div class="flex flex-wrap items-center gap-3.5 pt-2">
+<a class="inline-flex items-center gap-2 px-6 py-3.5 bg-primary text-on-primary rounded-xl font-label-numeric-md text-label-numeric-md shadow-md hover:bg-primary-container hover:shadow-lg transition-all transform hover:-translate-y-0.5" data-path="trip-create" href="#">
+<span class="">여행 시작하기 (무료)</span>
+<span class="material-symbols-outlined text-lg">arrow_forward</span>
+</a>
+<button class="inline-flex items-center gap-2 px-5 py-3.5 bg-surface-container text-on-surface rounded-xl font-label-md text-label-md shadow-sm hover:bg-surface-container-high transition-colors" onclick="document.getElementById('demo-modal').classList.remove('hidden')" type="button">
+<span class="material-symbols-outlined text-secondary text-lg">play_circle</span>
+<span class="">데모 둘러보기</span>
+</button>
+</div>
+<!-- User Trust Metric -->
+<div class="flex items-center gap-5 pt-4">
+<div class="flex -space-x-2.5 overflow-hidden">
+<img class="inline-block h-8 w-8 rounded-full object-cover shadow-sm" data-alt="A youthful Korean university student smiling warmly in outdoor natural light, wearing a casual denim shirt during a group road trip." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4Kl-RBS76YJrWX5s60_WJnVY_4TWAoymvpeu0JBK8ertY_IGsETsLwMpnIIaR-tO1OMxiTMGvFcGB3bbvNLlTwcdsvZGhygpUQ_gfqHmroZSZdepKGbx9hSk4RsP1sW5txA7OHc6Hj88DeStDw-xLMgcoEhrL00XMJqIwk-WgS5JgMhtIOzTT6VRx6UAYXFq_gW0kKebl955Ctty5C8dtW3m90d04maitFio6a6zVQa3MZUpedyBu">
+<img class="inline-block h-8 w-8 rounded-full object-cover shadow-sm" data-alt="A portrait of a cheerful young Asian woman with a backpack outdoors in Busan, sunlit beach in the background with bright teal sky." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKPFQ7qgkEYH5YvWdKLKtf5scWaZrgm2YQT8gJx2I0leDq8Ba13mwGBRituNdrd0TvwnPjb_QOCo0O-bRy6a0YI85WWAtmcu6fT7iGT5vtdxptgOKCfO9DtOO7pAQQWfIeQIeEv6fyh4r4S6VJ_w03KfWYv7A6k3qdBqmsL8pz7_07gTloCAZFsebdGHZ5GHhtXJ2RiN7wIXoFmUiX8Quwxx5NYLQOWJWwpmjTDfTDNYKbvkgbCNNk">
+<img class="inline-block h-8 w-8 rounded-full object-cover shadow-sm" data-alt="A young male traveler laughing while looking at a smartphone during an evening camping trip in Jeju, warm ambient lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7JG8HwaHZ2iwooKkSWiCb1h2fmc4P5jZ3icB0CiU28cE3FB9juYy1pB_6IqJHdUMi24Ddir5EaD9qHZ9vC1BrKAvRnV59JZO-OHFM_HEuafRrOspBJNni8O7pR-7l5bE0U9N0XQSOr8zcxy6itfPYRmJaRT7bnyOB5f-gZLHSpISJIoPeGp9enGJryhcTJhftDjbN1nDvlOVxVbOQoMGEZ_daP6p9tVEyRbTUiqnIzJox5VxLgZ2H">
+<div class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-secondary text-on-secondary font-label-sm text-label-sm shadow-sm">+9k</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            이미 <strong class="text-on-surface font-semibold">12,400+팀</strong>이 여행 후 깔끔하게 정산했어요
+          </p>
+</div>
+</div>
+<!-- Right Mockup Column (5 cols) -->
+<div class="lg:col-span-5 relative w-full flex justify-center">
+<!-- Decorative Ambient Blob -->
+<div class="absolute -right-8 top-10 w-64 h-64 bg-secondary-fixed/40 rounded-full blur-2xl pointer-events-none"></div>
+<!-- High-fidelity floating UI card container -->
+<div class="relative w-full max-w-md bg-surface-container-lowest rounded-2xl p-6 shadow-xl space-y-5">
+<!-- Card Header -->
+<div class="flex items-start justify-between">
+<div class="space-y-1">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">
+<span class="">🏖️ 정산 진행중</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">부산 2박 3일 우정 여행</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">2025.05.02 - 05.04 • 4명 참여</p>
+</div>
+<div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">luggage</span>
+</div>
+</div>
+<!-- Quick Stats Panel -->
+<div class="grid grid-cols-3 gap-2.5 p-3.5 bg-surface-container-low rounded-xl">
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-outline">총 지출</span>
+<span class="font-label-numeric-md text-label-numeric-md text-on-surface mt-0.5">₩540,000</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-outline">참여 인원</span>
+<span class="font-label-numeric-md text-label-numeric-md text-on-surface mt-0.5">4명</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-outline">1인당 평균</span>
+<span class="font-label-numeric-md text-label-numeric-md text-secondary mt-0.5">₩135,000</span>
+</div>
+</div>
+<!-- Recent Split Log Preview -->
+<div class="space-y-2.5">
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-variant flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-lg">flight_takeoff</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">항공권 예약</span>
+<span class="font-body-sm text-body-sm text-outline">박서연 결제 • 4명 균등</span>
+</div>
+</div>
+<span class="font-label-numeric-md text-label-numeric-md text-on-surface">₩180,000</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-secondary-fixed/50 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-lg">restaurant</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">해운대 조개구이</span>
+<span class="font-body-sm text-body-sm text-outline">김민준 결제 • 4명 균등</span>
+</div>
+</div>
+<span class="font-label-numeric-md text-label-numeric-md text-on-surface">₩140,000</span>
+</div>
+</div>
+<!-- Dynamic Transfer Optimizer Spotlight -->
+<div class="p-3.5 bg-gradient-to-r from-surface-container to-secondary-container/40 rounded-xl space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-base">swap_horiz</span>
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold tracking-wider">최소 송금 안내</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary font-medium">단 2회로 해결</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-on-surface">
+<span class="">이지은 → 김민준</span>
+<span class="font-label-numeric-md text-label-numeric-md text-primary font-bold">₩35,000</span>
+</div>
+</div>
+<!-- Floating Badges Overlay (Desktop Accent) -->
+<div class="hidden sm:flex absolute -left-8 -bottom-5 items-center gap-2 px-4 py-2 bg-surface-container-lowest text-on-surface rounded-full shadow-lg">
+<span class="flex h-2.5 w-2.5 rounded-full bg-secondary"></span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">✨ 계좌 송금액 복사 완료!</span>
+</div>
+<div class="hidden sm:flex absolute -right-6 top-8 items-center gap-2 px-3 py-1.5 bg-primary text-on-primary rounded-xl shadow-lg transform rotate-3">
+<span class="material-symbols-outlined text-sm">receipt_long</span>
+<span class="font-label-sm text-label-sm font-semibold">자동 N빵 산출됨</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 2: 3 KEY FEATURE CARDS -->
+<section class="w-full bg-surface-container-low py-20 px-6 lg:px-12">
+<div class="max-w-7xl mx-auto space-y-12">
+<!-- Section Heading -->
+<div class="text-center max-w-2xl mx-auto space-y-3">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold">Key Capabilities</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+          불편했던 여행 가계부,<br class="sm:hidden"> 이렇게 해결합니다
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          귀찮은 수기 메모와 메신저 톡방 뒤적거리기는 이제 그만. 직관적인 UI로 투명하게 관리하세요.
+        </p>
+</div>
+<!-- Feature Bento Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+<!-- Feature Card 1 -->
+<div class="group bg-surface-container-lowest rounded-2xl p-7 flex flex-col justify-between shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+<div class="space-y-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-2xl">group_add</span>
+</div>
+<div class="space-y-2">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">
+                👥 여행 멤버 간편 등록
+              </h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                링크 하나로 함께 간 친구들을 초대하고, 참가자별 프로필과 역할을 간편하게 설정할 수 있습니다.
+              </p>
+</div>
+</div>
+<!-- Feature 1 Visual Accent -->
+<div class="pt-6 mt-6">
+<div class="bg-surface-container-low rounded-xl p-3 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-base">link</span>
+<span class="font-body-sm text-body-sm text-outline truncate max-w-[140px]">tripsplit.app/busan-2025</span>
+</div>
+<span class="px-2.5 py-1 bg-surface-container-lowest text-primary font-label-sm text-label-sm rounded-lg shadow-sm">초대 복사</span>
+</div>
+</div>
+</div>
+<!-- Feature Card 2 -->
+<div class="group bg-surface-container-lowest rounded-2xl p-7 flex flex-col justify-between shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+<div class="space-y-4">
+<div class="w-12 h-12 rounded-xl bg-secondary-fixed/50 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-on-secondary transition-colors">
+<span class="material-symbols-outlined text-2xl">receipt_long</span>
+</div>
+<div class="space-y-2">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">
+                🧾 똑똑한 지출 기록
+              </h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                식비, 숙소, 교통비 등 영수증별로 결제한 사람과 함께 낸 사람을 유연하게 체크하여 기록하세요.
+              </p>
+</div>
+</div>
+<!-- Feature 2 Visual Accent: Tags breakdown -->
+<div class="pt-6 mt-6">
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center gap-1 px-3 py-1 bg-surface-container-high rounded-full font-label-sm text-label-sm text-on-surface">
+<span class="">🍽️ 식비</span>
+</span>
+<span class="inline-flex items-center gap-1 px-3 py-1 bg-surface-container-high rounded-full font-label-sm text-label-sm text-on-surface">
+<span class="">🏨 숙소</span>
+</span>
+<span class="inline-flex items-center gap-1 px-3 py-1 bg-surface-container-high rounded-full font-label-sm text-label-sm text-on-surface">
+<span class="">🚕 택시/교통</span>
+</span>
+<span class="inline-flex items-center gap-1 px-3 py-1 bg-secondary-container rounded-full font-label-sm text-label-sm text-on-secondary-container">
+<span class="">+예외 인원 설정</span>
+</span>
+</div>
+</div>
+</div>
+<!-- Feature Card 3 -->
+<div class="group bg-surface-container-lowest rounded-2xl p-7 flex flex-col justify-between shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+<div class="space-y-4">
+<div class="w-12 h-12 rounded-xl bg-tertiary-fixed-dim/40 flex items-center justify-center text-tertiary group-hover:bg-tertiary group-hover:text-on-tertiary transition-colors">
+<span class="material-symbols-outlined text-2xl">account_balance_wallet</span>
+</div>
+<div class="space-y-2">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">
+                ⚡ 자동 N빵 &amp; 최소 송금 계산
+              </h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                복잡한 입출금 계산은 끝! 알고리즘이 서로 주고받을 송금 횟수를 최소화하여 명쾌한 정산 리포트를 만들어 줍니다.
+              </p>
+</div>
+</div>
+<!-- Feature 3 Visual Accent: Settlement Minimizer -->
+<div class="pt-6 mt-6">
+<div class="p-3 bg-secondary-container/30 rounded-xl flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-on-surface-variant">송금 경로 최적화</span>
+<span class="font-label-sm text-label-sm text-tertiary font-bold">12회 → 3회로 단축</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 3: HOW IT WORKS (3-STEP PROCESS) -->
+<section class="w-full py-20 px-6 lg:px-12">
+<div class="max-w-7xl mx-auto space-y-16">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="space-y-3 max-w-xl">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold">Easy 3 Steps</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+            단 3단계로 끝나는<br>
+            초간단 여행 정산 프로세스
+          </h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+          로그인 없이도 즉시 시작할 수 있으며, 친구들은 별도의 앱 다운로드 없이 웹 브라우저에서 바로 참여합니다.
+        </p>
+</div>
+<!-- Steps Visual Flow -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+<!-- Step 1 -->
+<div class="relative flex flex-col p-8 bg-surface-container rounded-2xl space-y-6">
+<div class="flex items-center justify-between">
+<span class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-numeric-md text-label-numeric-md">1</span>
+<span class="font-label-sm text-label-sm text-outline uppercase font-semibold">Step 01</span>
+</div>
+<div class="space-y-2">
+<h3 class="font-headline-md text-headline-md text-on-surface">여행방 생성</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              여행 제목과 멤버 이름을 입력하고 공유 링크를 발급받으세요. 누구나 즉시 입장 가능합니다.
+            </p>
+</div>
+<div class="w-full h-36 bg-surface-container-lowest rounded-xl p-4 flex flex-col justify-center space-y-2 shadow-sm">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span class="font-label-md text-label-md text-on-surface">방 제목: 제주 스쿠터 일주 🛵</span>
+</div>
+<div class="flex items-center gap-1.5 pt-1">
+<span class="px-2 py-0.5 rounded-md bg-surface-container font-label-sm text-label-sm text-outline">민수</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container font-label-sm text-label-sm text-outline">지현</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container font-label-sm text-label-sm text-outline">도윤</span>
+</div>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="relative flex flex-col p-8 bg-surface-container rounded-2xl space-y-6">
+<div class="flex items-center justify-between">
+<span class="w-10 h-10 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-label-numeric-md text-label-numeric-md">2</span>
+<span class="font-label-sm text-label-sm text-outline uppercase font-semibold">Step 02</span>
+</div>
+<div class="space-y-2">
+<h3 class="font-headline-md text-headline-md text-on-surface">지출 기록</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              누가 얼마를 결제했는지 스마트폰으로 바로바로 입력하세요. 제외할 인원이 있다면 클릭 한 번으로 제외!
+            </p>
+</div>
+<div class="w-full h-36 bg-surface-container-lowest rounded-xl p-4 flex flex-col justify-center space-y-2 shadow-sm">
+<div class="flex justify-between items-center text-sm">
+<span class="font-label-md text-label-md text-on-surface">우도 땅콩 아이스크림</span>
+<span class="font-label-numeric-md text-label-numeric-md text-primary">₩24,000</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-secondary h-2 rounded-full w-3/4"></div>
+</div>
+<span class="font-body-sm text-body-sm text-outline text-right">총 18개 결제 기록됨</span>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="relative flex flex-col p-8 bg-surface-container rounded-2xl space-y-6">
+<div class="flex items-center justify-between">
+<span class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-label-numeric-md text-label-numeric-md">3</span>
+<span class="font-label-sm text-label-sm text-outline uppercase font-semibold">Step 03</span>
+</div>
+<div class="space-y-2">
+<h3 class="font-headline-md text-headline-md text-on-surface">원클릭 정산 공유</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              정산 버튼을 누르면 송금 금액과 계좌 정보가 정리된 카카오톡 맞춤형 요약표가 자동 생성됩니다.
+            </p>
+</div>
+<div class="w-full h-36 bg-surface-container-lowest rounded-xl p-4 flex flex-col justify-between shadow-sm">
+<div class="flex items-center gap-2 text-secondary">
+<span class="material-symbols-outlined text-lg">check_circle</span>
+<span class="font-label-sm text-label-sm font-semibold">정산 완료 보고서 생성</span>
+</div>
+<div class="flex items-center justify-between bg-surface-container-low px-3 py-1.5 rounded-lg">
+<span class="font-body-sm text-body-sm text-on-surface">카카오톡 공유하기</span>
+<span class="material-symbols-outlined text-base text-primary">share</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 4: REALISTIC PREVIEW / SOCIAL PROOF STRIP -->
+<section class="w-full bg-surface py-12 px-6 lg:px-12">
+<div class="max-w-7xl mx-auto rounded-3xl bg-gradient-to-r from-surface-container-high to-surface-variant p-8 lg:p-12 shadow-sm">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+<div class="space-y-4">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-lowest text-primary font-label-sm text-label-sm shadow-sm">
+<span class="material-symbols-outlined text-base">verified</span>
+<span class="">신뢰받는 N빵 알고리즘</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface">
+            "정산 때문에 여행 끝나고<br>
+            친구끼리 민망할 일 없어요"
+          </h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            모든 참여자가 실시간으로 지출 내역을 투명하게 확인하고 확인 체크할 수 있어, 1원 단위 오차도 없이 신뢰할 수 있습니다.
+          </p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-5 bg-surface-container-lowest rounded-2xl shadow-sm space-y-1">
+<span class="font-label-numeric-lg text-label-numeric-lg text-primary">0원</span>
+<p class="font-body-sm text-body-sm text-outline">서비스 전액 무료 이용</p>
+</div>
+<div class="p-5 bg-surface-container-lowest rounded-2xl shadow-sm space-y-1">
+<span class="font-label-numeric-lg text-label-numeric-lg text-secondary">3.4배</span>
+<p class="font-body-sm text-body-sm text-outline">정산 소요 시간 단축</p>
+</div>
+<div class="p-5 bg-surface-container-lowest rounded-2xl shadow-sm space-y-1">
+<span class="font-label-numeric-lg text-label-numeric-lg text-on-surface">99.8%</span>
+<p class="font-body-sm text-body-sm text-outline">사용자 정산 만족도</p>
+</div>
+<div class="p-5 bg-surface-container-lowest rounded-2xl shadow-sm space-y-1">
+<span class="font-label-numeric-lg text-label-numeric-lg text-primary-container">1회</span>
+<p class="font-body-sm text-body-sm text-outline">초대 링크 터치로 즉시 참가</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 5: BOTTOM BANNER CTA -->
+<section class="w-full max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-24">
+<div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-primary-container to-secondary p-10 lg:p-16 text-center text-on-primary shadow-xl">
+<!-- Decorative Backdrop circles -->
+<div class="absolute -top-24 -left-24 w-80 h-80 rounded-full bg-white/10 blur-2xl pointer-events-none"></div>
+<div class="absolute -bottom-24 -right-24 w-80 h-80 rounded-full bg-secondary-container/20 blur-2xl pointer-events-none"></div>
+<div class="relative z-10 max-w-2xl mx-auto space-y-6">
+<h2 class="font-display-hero text-display-hero tracking-tight leading-tight">
+          다음 여행도 정산 스트레스 없이 떠나보세요
+        </h2>
+<p class="font-body-lg text-body-lg text-primary-fixed leading-relaxed">
+          회원가입 절차 없이, 지금 바로 새로운 여행 방을 만들고 친구들을 초대해 보세요.
+        </p>
+<div class="pt-2">
+<a class="inline-flex items-center gap-2 px-8 py-4 bg-surface-container-lowest text-primary rounded-2xl font-label-numeric-md text-label-numeric-md shadow-lg hover:bg-surface hover:shadow-xl hover:scale-105 transition-all" data-path="trip-create" href="#">
+<span class="">지금 바로 시작하기</span>
+<span class="material-symbols-outlined text-xl">east</span>
+</a>
+</div>
+<p class="font-body-sm text-body-sm text-primary-fixed/80">
+          설치 없는 웹 앱 • 모바일 및 PC 브라우저 지원 • 100% 무료
+        </p>
+</div>
+</div>
+</section>
+<!-- DEMO PREVIEW MODAL (Client Interaction) -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-on-background/50 backdrop-blur-sm" id="demo-modal">
+<div class="relative w-full max-w-2xl bg-surface-container-lowest rounded-3xl p-6 lg:p-8 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-base">visibility</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">체험용 데모 여행방 미리보기</h3>
+</div>
+<button class="p-2 rounded-full hover:bg-surface-container text-outline hover:text-on-surface transition-colors" onclick="document.getElementById('demo-modal').classList.add('hidden')" type="button">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="space-y-4">
+<div class="p-4 bg-surface-container-low rounded-2xl space-y-3">
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-on-surface">도쿄 3박 4일 미식 투어 🍣</span>
+<span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">참여자 3명</span>
+</div>
+<div class="grid grid-cols-2 gap-3 pt-2 text-sm">
+<div class="p-3 bg-surface-container-lowest rounded-xl">
+<span class="font-body-sm text-body-sm text-outline">총 정산 금액</span>
+<p class="font-label-numeric-md text-label-numeric-md text-primary mt-1">₩890,000</p>
+</div>
+<div class="p-3 bg-surface-container-lowest rounded-xl">
+<span class="font-body-sm text-body-sm text-outline">내 부담 금액</span>
+<p class="font-label-numeric-md text-label-numeric-md text-secondary mt-1">₩296,666</p>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<span class="font-label-sm text-label-sm text-outline">간편 송금 안내</span>
+<div class="p-4 bg-surface-container rounded-xl flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">토스뱅크 1000-01-234567</span>
+<span class="font-body-sm text-body-sm text-outline">받는 분: 박준혁 • ₩45,000원</span>
+</div>
+<button class="px-3 py-1.5 bg-primary text-on-primary rounded-lg font-label-sm text-label-sm hover:bg-primary-container transition-colors" onclick="this.innerText='복사됨!'" type="button">
+              계좌 복사
+            </button>
+</div>
+</div>
+</div>
+<div class="flex justify-end gap-3 pt-2">
+<button class="px-5 py-2.5 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors" onclick="document.getElementById('demo-modal').classList.add('hidden')" type="button">
+          닫기
+        </button>
+<a class="px-5 py-2.5 rounded-xl bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors" data-path="trip-create" href="#">
+          직접 여행방 만들기
+        </a>
+</div>
+</div>
+</div>
+</div></main><footer class="w-full bg-surface-container-low shadow-[0_-1px_6px_rgba(0,0,0,0.02)]"><div class="max-w-7xl mx-auto px-6 lg:px-12 py-12"><div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8"><div class="md:col-span-2 space-y-3"><div class="flex items-center gap-2"><img alt="TripSplit Logo" class="h-6 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VZPnm8c0usCcmJSz2RkQ3hBPGXdVNC16bVhPCMvSD93Cu1Th510E2LCHj7UUBQ056OZ6_fJdJsvI2yYUPQm1H8cc55VgTxCxfXPEw16JkepJLW4CPyoSZlr3an0Kz8RAZ_klWuxC4hG0YbmBByALwZNHztlxS2zZi6kmFK_Jq1qkMXjbQZ8YtbTyH6cgw9VgtteVb3da1UJOnK5OWSt7Zg1pliSfo-xbUuREPvLb8I1Yra1_9_I9WsWiw"><span class="font-headline-sm text-headline-sm text-primary">TripSplit</span></div><p class="font-body-sm text-body-sm text-on-surface-variant max-w-md">동행인과의 소중한 여행 추억에 어색한 정산 계산 대신 명쾌함을 더합니다. 실시간 영수증 분할 및 N빵 최적화 알고리즘 기반 스마트 공유 여행 가계부입니다.</p><p class="font-body-sm text-body-sm text-outline">대학생 테크 프로젝트 &amp; 오픈소스 이니셔티브</p></div><div><h4 class="font-label-md text-label-md text-on-surface mb-3">빠른 이동</h4><ul class="space-y-2 font-body-sm text-body-sm text-on-surface-variant"><li class=""><a class="hover:text-primary transition-colors" data-path="trip-dashboard" href="#">내 여행 목록</a></li><li class=""><a class="hover:text-primary transition-colors" data-path="add-expense" href="#">실시간 영수증 등록</a></li><li class=""><a class="hover:text-primary transition-colors" data-path="settlement-summary" href="#">정산 송금 가이드</a></li></ul></div><div><h4 class="font-label-md text-label-md text-on-surface mb-3">고객 지원 &amp; 정책</h4><ul class="space-y-2 font-body-sm text-body-sm text-on-surface-variant"><li class=""><a class="hover:text-primary transition-colors" data-path="privacy-policy" href="#">개인정보처리방침</a></li><li class=""><a class="hover:text-primary transition-colors" data-path="terms-of-service" href="#">이용약관</a></li><li class=""><a class="hover:text-primary transition-colors" data-path="feedback" href="#">피드백 보내기</a></li></ul></div></div><div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-body-sm text-body-sm text-outline"><p class="">© 2025 TripSplit. All rights reserved.</p><p class="">Crafted with modern fintech simplicity for travelers everywhere.</p></div></div></footer>
+
+</body></html>
