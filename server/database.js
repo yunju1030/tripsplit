@@ -26,7 +26,7 @@ export async function transaction(pool, callback, readOnly = false) {
     throw error;
   } finally { client.release(); }
 }
-const required = { trips: ['id','name','start_date','end_date','created_at','legacy_id'], members: ['id','trip_id','name','position'], expenses: ['id','trip_id','date','item','category','amount','paid_by'], expense_splits: ['id','expense_id','member_id','share_amount'] };
+const required = { trips: ['id','name','start_date','end_date','created_at','legacy_id','owner_id'], members: ['id','trip_id','name','position'], expenses: ['id','trip_id','date','item','category','amount','paid_by'], expense_splits: ['id','expense_id','member_id','share_amount'] };
 export async function inspectSchema(client) {
   const { rows } = await client.query("SELECT table_name,column_name,data_type,column_default,is_identity FROM information_schema.columns WHERE table_schema='public' AND table_name = ANY($1::text[])", [Object.keys(required)]);
   const columns = Object.fromEntries(Object.keys(required).map(table => [table, Object.fromEntries(rows.filter(row => row.table_name === table).map(row => [row.column_name, row]))]));

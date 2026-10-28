@@ -1,3 +1,4 @@
+import { accountRequest, renderAccount } from './account.js';
 import { CATEGORIES, categoryOf } from './categories.js';
 import { installTripManagement } from './trip-management.js';
 import { createApiRepository } from './api-storage.js';
@@ -6,6 +7,7 @@ import { splitExpense, expenseShares, summarize } from './calculations.js';
 const app = document.querySelector('#app');
 const repository = createApiRepository();
 let routeVersion = 0;
+let currentUser = null;
 const money = amount => `${amount.toLocaleString('ko-KR')}원`;
 const escape = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const uid = () => crypto.randomUUID();
@@ -32,6 +34,7 @@ function stats(trip, summary) {
 }
 function tripList(loading = false) {
   if (loading) return `<section id="trips" class="section-space"><h2>내 여행 목록</h2><div class="card" role="status" data-loading-trips>여행 기록을 불러오고 있습니다. 잠시만 기다려 주세요.</div></section>`;
+  if (!currentUser) return `<section class="section-space"><div class="card"><h2>나만의 여행을 저장해 보세요</h2><p class="muted">간단히 가입하고, 언제든 같은 계정으로 여행 기록을 불러오세요.</p><div class="actions">${link('간단 회원가입', '#signup', 'primary')}${link('로그인', '#login')}</div></div></section>`;
   const trips = repository.list().slice().reverse();
   return `<section id="trips" class="section-space"><div class="row"><h2>내 여행 목록 <span class="muted">${trips.length}</span></h2>${link('+ 새 여행 만들기', '#create', 'primary')}</div>${trips.length ? `<div class="trip-grid">${trips.map(t => `<article class="card trip-card"><div class="trip-menu-wrap"><button class="btn trip-menu-trigger" type="button" data-trip-menu aria-label="${escape(t.name)} 여행 관리" aria-expanded="false">⋯</button><div class="trip-menu" hidden><button type="button" data-trip-action="edit" data-trip-id="${escape(t.id)}">여행 정보 수정</button><button type="button" class="danger" data-trip-action="delete" data-trip-id="${escape(t.id)}">여행 삭제</button></div></div><a class="trip-card-link" href="${url('dashboard', t.id)}"><span class="tag">참여자 ${t.participants.length}명</span><h3 style="margin-top:16px">${escape(t.name)}</h3><p class="muted">${period(t)}</p><div class="row"><strong class="money">${money(summarize(t).total)}</strong><span class="teal">여행 열기 →</span></div></a></article>`).join('')}</div>` : '<div class="card empty"><h2>함께 떠날 여행을 만들어 보세요</h2><p>참여자를 등록하면 지출 기록과 정산을 바로 시작할 수 있어요.</p></div>'}<button class="btn small" type="button" data-import-local>기존 브라우저 여행 가져오기</button><p class="notice">여행 기록은 Neon에 저장됩니다. 기존 브라우저 데이터는 확인 후 가져올 수 있습니다.</p></section>`;
 }
@@ -129,6 +132,23 @@ async function route() {
     // Paint the existing Stitch landing before the Neon cold-start request.
     // The empty-state message appears only after a successful database read.
     if (page === 'home') landing(true);
+    const session = await accountRequest('session');
+    if (version !== routeVersion) return;
+    if (currentUser?.id !== session.user?.id) repository.clear();
+    currentUser = session.user;
+    const controls = document.querySelector('#account-controls');
+    controls.innerHTML = currentUser ? `<span class="muted">${escape(currentUser.username)}님</span><button class="btn small" type="button" data-logout>로그아웃</button>` : link('로그인', '#login', 'small');
+    document.querySelector('#navigation').innerHTML = `<a href="#home">서비스 소개</a><a href="#trips">내 여행 목록</a>`;
+    if (['login', 'signup'].includes(page)) {
+      if (currentUser) { location.hash = '#trips'; return; }
+      renderAccount(app, page === 'signup', async user => { repository.clear(); currentUser = user; location.hash = '#trips'; });
+      document.title = (page === 'signup' ? '간단 회원가입' : '로그인') + ' · TripSplit';
+      return;
+    }
+    if (!currentUser) {
+      if (page !== 'home') { location.hash = '#login'; return; }
+      currentTrip = null; landing(); document.title = 'TripSplit 여행 경비 정산'; return;
+    }
     await repository.refresh();
     if (version !== routeVersion) return;
     currentTrip = tripId ? repository.get(tripId) : null;
@@ -170,4 +190,13 @@ document.addEventListener('click', async event => {
     if (result) { await route(); toast(`가져옴 ${result.imported}개, 이미 가져온 여행 ${result.skipped}개`); }
   } catch (error) { toast(error.message); }
   finally { button.disabled = false; }
+});
+
+window.addEventListener('tripsplit-session-expired', () => { currentUser = null; repository.clear(); location.hash = '#login'; });
+document.addEventListener('click', async event => {
+  const button = event.target.closest('[data-logout]');
+  if (!button || button.disabled) return;
+  button.disabled = true;
+  try { await accountRequest('logout', {}); currentUser = null; currentTrip = null; repository.clear(); if (location.hash === '#home') await route(); else location.hash = '#home'; }
+  catch (error) { toast(error.message); button.disabled = false; }
 });

@@ -4,9 +4,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { getPool } from './server/database.js';
 import { createStore, validId } from './server/store.js';
+import { createAccounts, sessionToken, SESSION_COOKIE, cookieOptions } from './server/accounts.js';
 dotenv.config({path:['.env.local','.env'],quiet:true});
 const root=path.dirname(fileURLToPath(import.meta.url));
-export function createApp({storeFactory=()=>createStore(getPool())}={}) {
+export function createApp({storeFactory=userId=>createStore(getPool(),userId),accountFactory=()=>createAccounts(getPool()),config=process.env}={}) {
   const app=express();app.disable('x-powered-by');
   app.use(express.json({limit:'5mb'}));
   app.use((req,res,next)=>{
@@ -14,14 +15,27 @@ export function createApp({storeFactory=()=>createStore(getPool())}={}) {
     if(!['GET','HEAD'].includes(req.method) && (req.get('X-Requested-With')!=='TripSplit' || req.get('Sec-Fetch-Site')==='cross-site')) return res.status(403).json({error:'허용되지 않은 요청입니다.'});
     next();
   });
-  app.get('/api/trips',async(req,res)=>res.json({trips:await storeFactory().list()}));
-  app.post('/api/trips',async(req,res)=>res.status(201).json(await storeFactory().create(req.body)));
-  app.put('/api/trips/:id',async(req,res)=>res.json(await storeFactory().update(validId(req.params.id),req.body,req.get('If-Match'))));
-  app.delete('/api/trips/:id',async(req,res)=>res.json(await storeFactory().remove(validId(req.params.id),req.get('If-Match'))));
-  app.post('/api/trips/:id/expenses',async(req,res)=>res.status(201).json(await storeFactory().expense(validId(req.params.id),req.body,null,'POST',req.get('If-Match'))));
-  app.put('/api/trips/:id/expenses/:expenseId',async(req,res)=>res.json(await storeFactory().expense(validId(req.params.id),req.body,validId(req.params.expenseId),'PUT',req.get('If-Match'))));
-  app.delete('/api/trips/:id/expenses/:expenseId',async(req,res)=>res.json(await storeFactory().expense(validId(req.params.id),null,validId(req.params.expenseId),'DELETE',req.get('If-Match'))));
-  app.post('/api/import',async(req,res)=>res.json(await storeFactory().import(req.body?.trips)));
+  app.get('/api/auth/session',async(req,res)=>res.json({user:await accountFactory().current(sessionToken(req))}));
+  for(const action of ['register','login'])app.post(`/api/auth/${action}`,async(req,res)=>{
+    const ip=config.VERCEL?(req.get('x-forwarded-for')||'unknown').split(',')[0].trim():req.ip;
+    const session=await accountFactory()[action](req.body,ip);
+    res.cookie(SESSION_COOKIE,session.token,{...cookieOptions(config),maxAge:session.maxAge}).status(action==='register'?201:200).json({user:session.user});
+  });
+  app.post('/api/auth/logout',async(req,res)=>{await accountFactory().logout(sessionToken(req));res.clearCookie(SESSION_COOKIE,cookieOptions(config)).json({ok:true});});
+  app.use('/api',async(req,res,next)=>{
+    req.user=await accountFactory().current(sessionToken(req));
+    if(!req.user)return res.status(401).json({error:'내 여행을 보려면 로그인해 주세요.'});
+    next();
+  });
+  const store=req=>storeFactory(req.user.id);
+  app.get('/api/trips',async(req,res)=>res.json({trips:await store(req).list()}));
+  app.post('/api/trips',async(req,res)=>res.status(201).json(await store(req).create(req.body)));
+  app.put('/api/trips/:id',async(req,res)=>res.json(await store(req).update(validId(req.params.id),req.body,req.get('If-Match'))));
+  app.delete('/api/trips/:id',async(req,res)=>res.json(await store(req).remove(validId(req.params.id),req.get('If-Match'))));
+  app.post('/api/trips/:id/expenses',async(req,res)=>res.status(201).json(await store(req).expense(validId(req.params.id),req.body,null,'POST',req.get('If-Match'))));
+  app.put('/api/trips/:id/expenses/:expenseId',async(req,res)=>res.json(await store(req).expense(validId(req.params.id),req.body,validId(req.params.expenseId),'PUT',req.get('If-Match'))));
+  app.delete('/api/trips/:id/expenses/:expenseId',async(req,res)=>res.json(await store(req).expense(validId(req.params.id),null,validId(req.params.expenseId),'DELETE',req.get('If-Match'))));
+  app.post('/api/import',async(req,res)=>res.json(await store(req).import(req.body?.trips)));
   app.use('/api',(req,res)=>res.status(404).json({error:'요청한 API를 찾을 수 없습니다.'}));
   // Explicit static allowlist. Never serve the project root, .env or SQL files.
   app.get('/',(req,res)=>res.sendFile(path.join(root,'index.html')));

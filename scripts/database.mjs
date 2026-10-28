@@ -7,7 +7,7 @@ try {
   pool=getPool();
   if(process.argv[2]==='prepare'){
     const client=await pool.connect();
-    try{await client.query(await readFile(new URL('../migrations/001-preserve-order-and-import.sql',import.meta.url),'utf8'));}
+    try{for(const file of ['001-preserve-order-and-import.sql','002-personal-accounts.sql'])await client.query(await readFile(new URL('../migrations/'+file,import.meta.url),'utf8'));}
     catch(error){await client.query('ROLLBACK');throw error;}
     finally{client.release();}
   }

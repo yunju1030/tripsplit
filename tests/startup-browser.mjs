@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import { createApp } from '../server.js';
 let resolveRead,rejectRead;
-const server=createApp({storeFactory:()=>({list:()=>new Promise((resolve,reject)=>{resolveRead=resolve;rejectRead=reject;})})}).listen(3021,'127.0.0.1');
+const server=createApp({accountFactory:()=>({current:async()=>({id:'1',username:'test'})}),storeFactory:()=>({list:()=>new Promise((resolve,reject)=>{resolveRead=resolve;rejectRead=reject;})})}).listen(3021,'127.0.0.1');
 await new Promise(resolve=>server.once('listening',resolve));
 let ws,call;
 try{

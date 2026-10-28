@@ -6,13 +6,15 @@ export function createApiRepository() {
     try {response=await fetch(url,{method,credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json','X-Requested-With':'TripSplit',...(expected?{'If-Match':expected}:{})},...(body===undefined?{}:{body:JSON.stringify(body)})});}
     catch {throw new Error('서버에 연결하지 못했습니다. 네트워크 상태를 확인해 주세요. 입력 내용은 저장되지 않았습니다.');}
     const data=await response.json().catch(()=>({error:'서버 응답을 읽지 못했습니다.'}));
-    if(!response.ok) throw new Error(data.error||'데이터를 저장하지 못했습니다.');
+    if(response.status===401)window.dispatchEvent(new Event('tripsplit-session-expired'));
+    if(!response.ok){const error=new Error(data.error||'데이터를 저장하지 못했습니다.');error.status=response.status;throw error;}
     return data;
   }
   function remember(trip){trips=[...trips.filter(t=>t.id!==trip.id),trip];return trip;}
   const get=id=>trips.find(t=>t.id===id);
   const expected=id=>{const trip=get(id);if(!trip)throw new Error('여행을 다시 조회한 뒤 시도해 주세요.');return trip.revision;};
   return {
+    clear:()=>{trips=[];},
     list:()=>trips,
     get,
     async refresh(){const data=await request('/api/trips');trips=data.trips;return trips;},

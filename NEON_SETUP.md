@@ -1,3 +1,5 @@
+> 개인별 여행 기록은 이제 간단 회원가입·로그인으로 분리됩니다. [PERSONAL_ACCOUNTS.md](PERSONAL_ACCOUNTS.md)를 먼저 확인하세요.
+
 # TripSplit Neon 저장소 연결
 
 기존 HTML/CSS/JavaScript와 Stitch 화면은 유지합니다. 이제 여행과 지출은 서버 API를 통해 Neon에 저장됩니다. localStorage는 확인 후 가져오기를 위한 읽기 용도로만 사용하며 자동 삭제·자동 업로드하지 않습니다.
@@ -19,7 +21,7 @@ npm.cmd run db:check
 npm.cmd start
 ```
 
-http://localhost:3000 에 접속하면 인증 없이 TripSplit 메인 화면이 열립니다. 로컬 서버는 127.0.0.1에 바인딩합니다.
+http://localhost:3000 에 접속하면 TripSplit 소개 화면이 열립니다. 간단 회원가입 후 본인의 여행을 저장할 수 있습니다. 로컬 서버는 127.0.0.1에 바인딩합니다.
 
 3000 포트를 예전 정적 서버가 사용하고 있다면 VS Code 터미널에서 해당 서버를 Ctrl+C로 종료한 뒤 새 서버를 실행하세요. 임시로 `PORT=3001`을 사용해도 됩니다. Live Server 또는 `file://`로 열면 서버 API를 사용할 수 없으므로 반드시 Node 서버 주소로 접속하세요.
 
@@ -67,9 +69,9 @@ http://localhost:3000 에 접속하면 인증 없이 TripSplit 메인 화면이 
 1. GitHub에 커밋하기 전에 `.env`, `.env.local`, `node_modules`, `.qa-browser`가 추적되지 않는지 확인합니다. `.gitignore`에 제외 규칙이 있습니다.
 2. Vercel에서 GitHub 저장소를 Import하고 **Express** 프로젝트로 설정합니다. `vercel.json`과 `npm run build`가 브라우저 파일만 `public/`으로 복사합니다. 서버 파일·환경변수·SQL은 이 폴더에 복사하지 않습니다.
 3. Vercel Settings → Environment Variables에 `DATABASE_URL`을 등록합니다. Preview에는 별도 Neon 브랜치를 권장합니다. PORT는 Vercel에서 필요하지 않습니다.
-4. 공개 배포 전에 데이터 보호를 위한 접근 제어를 먼저 설정하세요. 현재는 인증 없는 로컬 개발용입니다.
+4. 공개 배포 전에 데이터 보호를 위한 접근 제어를 먼저 설정하세요. 현재는 개인 계정 인증과 소유자 검사를 적용합니다.
 
-현재는 로컬 개발을 위해 인증을 사용하지 않습니다. Vercel 등에 공개 배포하기 전에는 API 조회·수정·삭제를 보호하는 접근 제어가 필요합니다.
+소개 페이지는 공개하고 여행 API는 개인 계정으로 보호합니다. Vercel 등에 공개 배포하기 전에는 API 조회·수정·삭제를 보호하는 접근 제어가 필요합니다.
 
 참고: [Vercel Express 배포](https://vercel.com/docs/frameworks/backend/express), [node-postgres 트랜잭션](https://node-postgres.com/features/transactions), [Neon 연결](https://neon.com/docs/get-started-with-neon/connect-neon).
 

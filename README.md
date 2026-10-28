@@ -1,3 +1,5 @@
+> 사용자별 간단 회원가입·여행 분리는 [PERSONAL_ACCOUNTS.md](PERSONAL_ACCOUNTS.md)에 안내되어 있습니다.
+
 > 현재 저장소는 Neon PostgreSQL로 전환되었습니다. 실행·환경변수·배포는 [NEON_SETUP.md](NEON_SETUP.md)를 참고하세요. 아래는 기존 화면과 기능 설명입니다.
 
 # TripSplit

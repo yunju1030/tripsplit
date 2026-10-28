@@ -11,3 +11,5 @@ h1,h2,h3{font-weight:700}
 
 /* Category labels reuse the existing pastel blue and mint palette. */
 .expense-title{display:flex;align-items:center;flex-wrap:wrap;gap:8px}.expense-category{display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;background:#cce5ff80;color:#004b73;font-size:11px;font-weight:600;line-height:1.6}.expense-category[data-category="1"],.expense-category[data-category="4"]{background:#86f2e460;color:#005049}.expense-category[data-category="3"],.expense-category[data-category="5"]{background:#eaedff;color:#004b73}.expense-category[data-category="6"]{background:#f2f3ff;color:#707881}
+
+.account-card{max-width:440px;margin:24px auto}.account-card h1{margin-top:18px}.account-switch{text-align:center;margin:22px 0;color:#707881}.account-switch a{color:#006194;font-weight:600}.account-controls{order:3;font-size:12px}.account-controls .muted{max-width:150px;overflow-wrap:anywhere}@media(max-width:760px){.account-controls{order:2;margin-left:auto}.account-card{margin:0 auto}.header-inner{gap:10px}}

@@ -18,9 +18,10 @@ export function validate(trip, schema) {
   }
   if (trip.participants.some(p => p.name.length > 50) || trip.expenses.some(e => e.name.length > 100 || e.amount > 2147483647 || (e.category != null && !CATEGORIES.includes(e.category)))) throw new AppError(400, '참여자 이름(50자), 지출 이름(100자), 카테고리와 금액(최대 2,147,483,647원)을 확인해 주세요.');
 }
-export function createStore(pool) {
+export function createStore(pool, userId) {
+  if(typeof userId!=='string'||!/^\d+$/.test(userId))throw new AppError(401,'로그인이 필요합니다.');
   async function load(client, id) {
-    const trips = await client.query("SELECT id::text,name,to_char(start_date,'YYYY-MM-DD') AS start_date,to_char(end_date,'YYYY-MM-DD') AS end_date FROM public.trips WHERE ($1::text IS NULL OR id::text=$1) ORDER BY created_at,id", [id || null]);
+    const trips = await client.query("SELECT id::text,name,to_char(start_date,'YYYY-MM-DD') AS start_date,to_char(end_date,'YYYY-MM-DD') AS end_date FROM public.trips WHERE owner_id=$2 AND ($1::text IS NULL OR id::text=$1) ORDER BY created_at,id", [id || null,userId]);
     if (!trips.rows.length) return [];
     const ids = trips.rows.map(t => t.id);
     const members = await client.query('SELECT id::text,trip_id::text,name,position FROM public.members WHERE trip_id::text=ANY($1::text[]) ORDER BY position,id', [ids]);
@@ -38,7 +39,7 @@ export function createStore(pool) {
   async function write(callback) { return transaction(pool,async client=>callback(client,await inspectSchema(client))); }
   async function locked(client,id,expected) {
     validId(id);
-    const result=await client.query('SELECT id FROM public.trips WHERE id::text=$1 FOR UPDATE',[id]);
+    const result=await client.query('SELECT id FROM public.trips WHERE id::text=$1 AND owner_id=$2 FOR UPDATE',[id,userId]);
     if (!result.rows.length) throw new AppError(404,'여행을 찾을 수 없습니다.');
     const [trip]=await load(client,id);
     if (!expected || expected !== trip.revision) throw new AppError(409,'다른 창에서 기록이 변경되었습니다. 새로고침 후 다시 수정해 주세요.');
@@ -58,7 +59,7 @@ export function createStore(pool) {
   }
   async function insertTrip(client,schema,trip,legacyId=null) {
     validate(trip,schema);
-    const {rows:[created]}=await client.query('INSERT INTO public.trips (name,start_date,end_date,legacy_id) VALUES ($1,$2,$3,$4) RETURNING id::text',[trip.name,trip.startDate,trip.endDate,legacyId]);
+    const {rows:[created]}=await client.query('INSERT INTO public.trips (name,start_date,end_date,legacy_id,owner_id) VALUES ($1,$2,$3,$4,$5) RETURNING id::text',[trip.name,trip.startDate,trip.endDate,legacyId,userId]);
     const mapped=new Map(), participants=[];
     for(const [position,p] of trip.participants.entries()) {
       const {rows:[member]}=await client.query('INSERT INTO public.members (trip_id,name,position) VALUES ($1,$2,$3) RETURNING id::text',[created.id,p.name,position]);
@@ -119,7 +120,7 @@ export function createStore(pool) {
       let imported=0,skipped=0;
       for(const trip of trips){
         validate(trip,schema);
-        const legacyId=`localStorage:tripsplit.v1:${trip.id}`;
+        const legacyId=`account:${userId}:localStorage:tripsplit.v1:${trip.id}`;
         const found=await client.query('SELECT id FROM public.trips WHERE legacy_id=$1',[legacyId]);
         if(found.rows.length){skipped++;continue;}
         await insertTrip(client,schema,trip,legacyId);imported++;
