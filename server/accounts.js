@@ -2,13 +2,16 @@ import { randomBytes, createHash, scrypt, timingSafeEqual } from 'node:crypto';
 import { promisify } from 'node:util';
 import { AppError } from './errors.js';
 import { transaction } from './database.js';
+import { validPassword, PASSWORD_HINT } from '../js/password-policy.js';
 const derive=promisify(scrypt);
 export const SESSION_COOKIE='tripsplit_session';
 const duration=30*24*60*60*1000;
 export const tokenHash=token=>createHash('sha256').update(token).digest('hex');
-export function credentials(body) {
+export function credentials(body,{registration=true}={}) {
   const username=typeof body?.username==='string'?body.username.trim().toLowerCase():'';
-  if(!/^[a-z0-9][a-z0-9._-]{3,39}$/.test(username)||typeof body?.password!=='string'||body.password.length<12||body.password.length>128)throw new AppError(400,'아이디는 영문·숫자·._- 4~40자, 비밀번호는 12~128자로 입력해 주세요.');
+  if(!/^[a-z0-9][a-z0-9._-]{3,39}$/.test(username))throw new AppError(400,'아이디는 영문·숫자·._- 4~40자로 입력해 주세요.');
+  if(typeof body?.password!=='string'||body.password.length<1||body.password.length>128)throw new AppError(400,'비밀번호를 입력해 주세요. 최대 128자까지 입력할 수 있습니다.');
+  if(registration&&!validPassword(body.password))throw new AppError(400,PASSWORD_HINT);
   return {username,password:body.password};
 }
 export async function passwordHash(password) {
@@ -46,7 +49,7 @@ export function createAccounts(pool) {
       catch(error){if(error.code==='23505')throw new AppError(409,'이미 사용 중인 아이디입니다. 다른 아이디를 입력해 주세요.');throw error;}
     },
     async login(body,ip){
-      const {username,password}=credentials(body);await limit(`login-ip:${ip}`,60,900);await limit(`login-user:${username}`,20,900);
+      const {username,password}=credentials(body,{registration:false});await limit(`login-ip:${ip}`,60,900);await limit(`login-user:${username}`,20,900);
       const {rows:[row]}=await pool.query('SELECT id::text,username,password_hash FROM public.app_users WHERE username=$1',[username]);
       // Match the work factor for unknown accounts to avoid username timing disclosure.
       const encoded=row?.password_hash||`scrypt$${'0'.repeat(32)}$${'0'.repeat(128)}`;
